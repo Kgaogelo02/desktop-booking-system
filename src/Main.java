@@ -380,7 +380,7 @@ public class Main extends Application {
         TableColumn<Booking, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Fix for TableView warning
+        // TableView warning
         reportTable.getColumns().addAll(idCol, nameCol, dateCol, timeCol, statusCol);
 
         // Filter action
@@ -427,7 +427,7 @@ public class Main extends Application {
     }
 
     // ========================================
-    // NEW VALIDATION METHOD
+    // VALIDATION METHOD
     // ========================================
     private boolean isValidTime(String time) {
         if (!time.matches("\\d{2}:\\d{2}")) {
