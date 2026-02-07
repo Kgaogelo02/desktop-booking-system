@@ -1,0 +1,17 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "Bash": {
+      "path": "bash",
+      "args": [
+        "-l"
+      ]
+    },
+    "PowerShell": {
+      "path": "powershell.exe"
+    }
+  },
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "C:/javafx-sdk-25.0.2/lib/*.jar"
+  ]
+}
