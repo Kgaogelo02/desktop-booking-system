@@ -1,145 +1,159 @@
-# 🏨 Desktop Booking Management System
+# Desktop Booking Management System
 
-![Java](https://img.shields.io/badge/Java-11%2B-orange)
-![JavaFX](https://img.shields.io/badge/JavaFX-Desktop-blue)
-![SQLite](https://img.shields.io/badge/Database-SQLite-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+A professional desktop application for managing customer bookings with secure authentication, real-time validation, and reporting capabilities.
 
-A complete desktop application for managing customer bookings with authentication, database storage, and reporting.
+**Technologies:** Java | JavaFX | SQLite
 
 ---
 
-## Quick Overview
+## 📸 Screenshots
 
-**What it does:** Manages customer bookings for businesses (salons, clinics, restaurants, etc.)  
-**Technology:** JavaFX + SQLite desktop application  
-**Key Features:** User login, booking management, conflict detection, reporting  
-**My Role:** Full-stack developer (database design to UI implementation)
+### Login Interface
+![Login Interface](./screenshots/login.jpg)
+
+### Main Dashboard
+![Main Dashboard](./screenshots/dashboard.jpg)
 
 ---
 
-## Get Started in 2 Minutes
+## Features
 
-### Prerequisites
-- Java JDK 11 or higher
-- JavaFX SDK (download from https://gluonhq.com/products/javafx/)
-- SQLite JDBC driver
+-  **Secure Login System** - Username and password authentication with database validation
+-  **Add Bookings** - Create new reservations with customer name, date, time, and notes
+-  **View All Bookings** - See all reservations in an organized table
+-  **Update Status** - Change booking status (Pending → Confirmed → Completed)
+-  **Delete Bookings** - Remove bookings with confirmation dialog
+-  **Reports Dashboard** - View statistics and filter bookings by status
+-  **Data Validation** - Ensures correct date/time format before saving
+-  **Persistent Storage** - All data saved in SQLite database
 
-### Installation
+---
 
-1. **Extract JavaFX SDK** to:
-C:\javafx-sdk-25.0.2\
+##  How It Works
 
+1. **Login** with your credentials (default: admin/admin123)
+2. **Add a booking** by filling in the form and clicking "Add Booking"
+3. **View bookings** in the table - automatically updates in real-time
+4. **Update status** by selecting a booking and clicking "Update Status"
+5. **View reports** to see booking statistics and filter by status
+6. **Data persists** - close and reopen, your bookings are still there!
 
-2. **Place SQLite JDBC jar** in `lib/` folder
+---
 
-3. **Run the application**
+##  Technologies Used
 
-**Windows:**
-Double-click START.bat
+| Technology | Purpose |
+|-----------|---------|
+| **Java 11+** | Core application logic and OOP principles |
+| **JavaFX** | Desktop GUI framework for windows, buttons, and tables |
+| **SQLite** | Lightweight database for storing users and bookings |
+| **JDBC** | Database connectivity with prepared statements |
 
+---
 
-**Or from command line:**
-```bash
-cd DesktopBookingSystem
-START.bat
-🔑 Default Login
-Username: admin
-Password: admin123
-Role: Administrator
-Project Structure
+##  Project Structure
+
+```
 DesktopBookingSystem/
-├── src/                    # All source code
-│   ├── Main.java          # Main application controller
+├── src/
+│   ├── Main.java          # UI and application logic
 │   ├── Booking.java       # Booking data model
 │   ├── User.java          # User authentication model
 │   └── DB.java            # Database operations
-├── lib/                   # External libraries
-│   └── sqlite-jdbc-*.jar  # SQLite database driver
-├── booking.db             # SQLite database (auto-generated)
-├── START.bat              # Windows launcher (compile + run)
-├── README.md              # This documentation
-└── .vscode/               # VS Code configuration
-✨ Features
-🔐 Authentication System
-Secure login with username/password
+├── lib/
+│   └── sqlite-jdbc.jar    # SQLite database driver
+└── START.bat              # Easy-run script
+```
 
-Role-based access control
+---
 
-Password strength validation
+##  Key Accomplishments
 
-Default admin user included
+### Database-Driven Architecture
+- Built complete booking system with SQLite integration
+- Two-table normalized schema (users, bookings)
+- Full CRUD operations (Create, Read, Update, Delete)
 
-Booking Management
-Add new bookings (customer name, date, time, notes)
+### Security & Validation
+- **SQL Injection Prevention:** Used prepared statements instead of string concatenation
+- **Input Validation:** Regex patterns for time format, required field checking
+- **Data Integrity:** Transaction-safe database operations
 
-Edit/update booking status or details
+### Object-Oriented Design
+- **Model-View-Controller (MVC)** pattern for clean architecture
+- **Encapsulation:** Private fields with public getters
+- **Single Responsibility:** Each class handles one specific task
+- **Code Reusability:** Generic methods for common operations
 
-Delete bookings with confirmation
+---
 
-View all bookings in sortable table
+##  Code Highlights
 
-Smart Validation
-Time format validation (HH:MM 24-hour)
-
-Date validation
-
-Booking conflict detection (prevents double booking)
-
-Required field checking
-
-Reports & Analytics
-Real-time statistics dashboard
-
-Filter bookings by status
-
-Chronological booking view
-
-Counts by status (Pending / Confirmed / Completed / Cancelled)
-
-Database Features
-SQLite lightweight storage
-
-Automatic table creation
-
-Prepared statements (prevents SQL injection)
-
-Connection management
-
-🛠️ Technical Implementation
-Tech Stack
-Frontend: JavaFX (modern desktop UI)
-
-Backend: Java
-
-Database: SQLite (file-based, no installation needed)
-
-Architecture: MVC Pattern
-
-Code Highlights
-// Booking conflict detection
-public static boolean isBookingConflict(String date, String time) {
-    // Prevents double bookings at same date/time
+### Secure Database Queries
+```java
+// Prevents SQL injection attacks
+public static User authenticateUser(String username, String password) {
+    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, username);
+        ps.setString(2, password);
+        // Secure parameter binding
+    }
 }
+```
 
-// Password strength validation
-public static boolean isPasswordStrong(String password) {
-    // Minimum 6 chars, at least one letter and digit
+### Data Validation
+```java
+// Ensures time is in HH:MM format
+public static boolean isValidTime(String time) {
+    return time.matches("\\d{2}:\\d{2}");
 }
+```
 
-// Time format validation
-private boolean isValidTime(String time) {
-    // Validates HH:MM format (00:00 to 23:59)
-}
-📊 Database Schema
-Users Table
+### Clean Architecture
+```
+Model Layer:    Booking.java, User.java (data structures)
+View Layer:     Main.java (UI components)
+Data Layer:     DB.java (database operations)
+```
+
+---
+
+##  Quick Start
+
+### Prerequisites
+- Java 11 or higher
+- JavaFX SDK
+- SQLite JDBC driver
+
+### Run the Application
+1. Download the project
+2. Double-click `START.bat`
+3. Login with: **username:** `admin` **password:** `admin123`
+4. Start managing bookings!
+
+### Default Login Credentials
+```
+Username: admin
+Password: admin123
+```
+
+---
+
+##  Database Schema
+
+### Users Table
+```sql
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     role TEXT DEFAULT 'user'
 );
-Bookings Table
+```
+
+### Bookings Table
+```sql
 CREATE TABLE bookings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -148,68 +162,48 @@ CREATE TABLE bookings (
     notes TEXT,
     status TEXT DEFAULT 'Pending'
 );
-🎯 Skills Demonstrated
-Technical Skills
-✅ Full-Stack Development (UI, business logic, database)
+```
 
-✅ JavaFX programming (Scene management, TableView, event handling)
+---
 
-✅ Database design (SQLite schema, CRUD operations, JDBC)
+##  What I Learned
 
-✅ Software architecture (MVC pattern, separation of concerns)
+- **Desktop Application Development** with JavaFX framework
+- **Database Design** and SQL query optimization
+- **Security Best Practices** for preventing SQL injection
+- **Object-Oriented Programming** principles in real-world application
+- **User Interface Design** for intuitive user experience
+- **Data Validation** and error handling strategies
 
-✅ Input validation (time, date, conflict detection)
+---
 
-✅ Error handling (user-friendly messages, exception handling)
+##  Future Enhancements
 
-Professional Skills
-Requirements analysis and implementation
+If I had more time, I would add:
+- Password encryption (bcrypt)
+- Email notifications for bookings
+- Calendar view for bookings
+- Export reports to PDF/CSV
+- User registration functionality
+- Booking conflict detection
 
-User experience design
+---
 
-Code documentation
 
-Testing and debugging
+##  Author
 
-Project organization
+**[Mabutsi Kgaogelo]**
+- Email: [mabutsikgaogelo@gmail.com]
 
-💻 Running from Source
-Compile & Run (Windows)
-cd src
-javac --module-path "..\javafx-sdk-25.0.2\lib" --add-modules javafx.controls -cp "..\lib\*" *.java
-java --module-path "..\javafx-sdk-25.0.2\lib" --add-modules javafx.controls -cp ".;..\lib\*" Main
-VS Code Setup
-Install Extension Pack for Java
+---
 
-Open project folder
+##  Acknowledgments
 
-double tap the START.bat
+Built as part of my software development portfolio to demonstrate:
+- Java programming skills
+- Database integration
+- GUI development
+- Software architecture
+- Security awareness
 
-🐛 Troubleshooting
-Issue	Solution
-JavaFX not found	Set correct path in START.bat
-SQLite class missing	Ensure jar is in lib/ folder
-Database locked	Close app and delete booking.db
-Compilation errors	Check Java version (needs JDK 11+)
-
-📈 Future Enhancements
-Planned features:
-
-Email notifications for bookings
-Calendar view integration
-Export to PDF/Excel
-User registration page
-Password encryption
-
-About This Project
-Purpose: Portfolio project demonstrating full-stack desktop development skills
-Development Time: 3 weeks
-Lines of Code: ~1,200
-Key Achievement: Complete working application from database to UI
-
-📞 Contact
-Mabutsi Kgaogelo
-Java Developer
-
-GitHub: https://github.com/Kgaogelo02
-Email: Mabutsikgaogelo@gmail.com
+---
