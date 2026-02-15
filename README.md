@@ -192,8 +192,8 @@ If I had more time, I would add:
 
 ##  Author
 
-**[Mabutsi Kgaogelo]**
-- Email: [mabutsikgaogelo@gmail.com]
+**Mabutsi Kgaogelo**
+- Email: mabutsikgaogelo@gmail.com
 
 ---
 
