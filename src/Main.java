@@ -21,9 +21,6 @@ public class Main extends Application {
         showLoginScene(primaryStage);
     }
 
-    // ========================================
-    // LOGIN SCENE
-    // ========================================
     private void showLoginScene(Stage stage) {
         GridPane loginGrid = new GridPane();
         loginGrid.setAlignment(Pos.CENTER);
@@ -61,10 +58,8 @@ public class Main extends Application {
         stage.setScene(loginScene);
         stage.show();
 
-        // Login action
         loginBtn.setOnAction(e -> handleLogin(stage, userField.getText(), passField.getText()));
         
-        // Allow Enter key to login
         passField.setOnAction(e -> handleLogin(stage, userField.getText(), passField.getText()));
     }
 
@@ -74,7 +69,6 @@ public class Main extends Application {
             return;
         }
 
-        // Check password strength (optional feedback)
         if (!User.isPasswordStrong(password)) {
             showAlert(Alert.AlertType.WARNING, "Weak Password", 
                 "Password should be at least 6 characters long for security.");
@@ -94,14 +88,10 @@ public class Main extends Application {
         }
     }
 
-    // ========================================
-    // BOOKING SCENE
-    // ========================================
     private void showBookingScene(Stage stage) {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
 
-        // Top - Welcome message and logout
         HBox topBox = new HBox(10);
         topBox.setAlignment(Pos.CENTER_LEFT);
         topBox.setPadding(new Insets(5));
@@ -113,11 +103,9 @@ public class Main extends Application {
         topBox.getChildren().addAll(welcomeLabel, spacer, logoutBtn);
         root.setTop(topBox);
 
-        // Center - Input form and table
         VBox centerBox = new VBox(10);
         centerBox.setPadding(new Insets(10));
 
-        // Input Form
         GridPane inputGrid = new GridPane();
         inputGrid.setHgap(10);
         inputGrid.setVgap(10);
@@ -161,7 +149,6 @@ public class Main extends Application {
         btnBox.getChildren().addAll(addBtn, clearBtn);
         inputGrid.add(btnBox, 1, 5);
 
-        // TableView
         TableView<Booking> tableView = new TableView<>();
         tableView.setPrefHeight(300);
 
@@ -189,7 +176,6 @@ public class Main extends Application {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusCol.setPrefWidth(100);
 
-        // Fix for TableView warning - use addAll instead of individual adds
         tableView.getColumns().addAll(idCol, nameCol, dateCol, timeCol, notesCol, statusCol);
 
         // Action buttons
@@ -215,11 +201,6 @@ public class Main extends Application {
         Scene scene = new Scene(root, 900, 700);
         stage.setScene(scene);
 
-        // ========================================
-        // EVENT HANDLERS
-        // ========================================
-
-        // Add Booking
         addBtn.setOnAction(e -> {
             String name = nameField.getText().trim();
             String date = datePicker.getValue() != null ? datePicker.getValue().toString() : "";
@@ -333,9 +314,6 @@ public class Main extends Application {
         refreshTable(tableView);
     }
 
-    // ========================================
-    // REPORTS WINDOW
-    // ========================================
     private void showReportsWindow() {
         Stage reportStage = new Stage();
         reportStage.setTitle("Booking Reports");
@@ -409,9 +387,6 @@ public class Main extends Application {
         reportStage.show();
     }
 
-    // ========================================
-    // HELPER METHODS
-    // ========================================
     private void refreshTable(TableView<Booking> tableView) {
         tableView.getItems().clear();
         List<Booking> bookings = DB.getAllBookings();
@@ -426,9 +401,6 @@ public class Main extends Application {
         alert.showAndWait();
     }
 
-    // ========================================
-    // VALIDATION METHOD
-    // ========================================
     private boolean isValidTime(String time) {
         if (!time.matches("\\d{2}:\\d{2}")) {
             return false;
