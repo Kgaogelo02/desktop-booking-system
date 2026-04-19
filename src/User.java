@@ -38,9 +38,6 @@ public class User {
     public StringProperty passwordProperty() { return password; }
     public StringProperty roleProperty() { return role; }
     
-    // ========================================
-    // NEW: PASSWORD VALIDATION METHOD
-    // ========================================
     public static boolean isPasswordStrong(String password) {
         if (password == null || password.length() < 6) {
             return false;
@@ -66,7 +63,6 @@ public class User {
         return hasDigit && hasLetter;
     }
     
-    // Optional: Password strength feedback
     public static String getPasswordStrengthFeedback(String password) {
         if (password == null || password.isEmpty()) {
             return "Password cannot be empty";
