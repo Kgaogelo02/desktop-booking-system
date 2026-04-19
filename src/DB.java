@@ -6,16 +6,10 @@ public class DB {
 
     private static final String URL = "jdbc:sqlite:booking.db";
 
-    // -----------------------------
-    // CONNECT
-    // -----------------------------
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(URL);
     }
-
-    // -----------------------------
-    // CREATE TABLES
-    // -----------------------------
+    
     public static void createTables() {
         createBookingsTable();
         createUsersTable();
@@ -66,9 +60,6 @@ public class DB {
         }
     }
 
-    // -----------------------------
-    // CREATE DEFAULT USER
-    // -----------------------------
     public static void createDefaultUser() {
         // Check if any users exist
         String checkSql = "SELECT COUNT(*) FROM users";
@@ -94,9 +85,6 @@ public class DB {
         }
     }
 
-    // -----------------------------
-    // USER AUTHENTICATION
-    // -----------------------------
     public static User authenticateUser(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
 
@@ -124,9 +112,6 @@ public class DB {
         return null;
     }
 
-    // -----------------------------
-    // ADD USER
-    // -----------------------------
     public static boolean addUser(String username, String password, String role) {
         String sql = "INSERT INTO users(username, password, role) VALUES(?,?,?)";
 
@@ -146,9 +131,6 @@ public class DB {
         }
     }
 
-    // -----------------------------
-    // ADD BOOKING
-    // -----------------------------
     public static boolean addBooking(String name, String date, String time, String notes) {
         String sql = "INSERT INTO bookings(name,date,time,notes,status) VALUES(?,?,?,?,?)";
 
@@ -170,9 +152,6 @@ public class DB {
         }
     }
 
-    // -----------------------------
-    // GET ALL BOOKINGS
-    // -----------------------------
     public static List<Booking> getAllBookings() {
         List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM bookings ORDER BY date DESC, time DESC";
@@ -199,9 +178,6 @@ public class DB {
         return list;
     }
 
-    // -----------------------------
-    // UPDATE BOOKING STATUS
-    // -----------------------------
     public static boolean updateBookingStatus(int id, String status) {
         String sql = "UPDATE bookings SET status = ? WHERE id = ?";
 
@@ -220,9 +196,6 @@ public class DB {
         }
     }
 
-    // -----------------------------
-    // DELETE BOOKING
-    // -----------------------------
     public static void deleteBooking(int id) {
         String sql = "DELETE FROM bookings WHERE id=?";
 
@@ -237,9 +210,6 @@ public class DB {
         }
     }
 
-    // ========================================
-    // NEW: BOOKING CONFLICT DETECTION
-    // ========================================
     public static boolean isBookingConflict(String date, String time) {
         String sql = "SELECT COUNT(*) FROM bookings WHERE date = ? AND time = ? AND status IN ('Pending', 'Confirmed')";
         
@@ -262,9 +232,6 @@ public class DB {
         return false;
     }
 
-    // -----------------------------
-    // REPORTING: Get Bookings by Date Range
-    // -----------------------------
     public static List<Booking> getBookingsByDateRange(String startDate, String endDate) {
         List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM bookings WHERE date BETWEEN ? AND ? ORDER BY date, time";
@@ -295,9 +262,6 @@ public class DB {
         return list;
     }
 
-    // -----------------------------
-    // REPORTING: Get Bookings by Status
-    // -----------------------------
     public static List<Booking> getBookingsByStatus(String status) {
         List<Booking> list = new ArrayList<>();
         String sql = "SELECT * FROM bookings WHERE status = ? ORDER BY date DESC, time DESC";
@@ -327,44 +291,31 @@ public class DB {
         return list;
     }
 
-    // -----------------------------
-    // REPORTING: Get Statistics
-    // -----------------------------
     public static String getBookingStatistics() {
         StringBuilder stats = new StringBuilder();
         
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-
-            // Total bookings
             try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM bookings")) {
                 if (rs.next()) {
                     stats.append("Total Bookings: ").append(rs.getInt(1)).append("\n");
                 }
             }
-
-            // Pending bookings
             try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM bookings WHERE status='Pending'")) {
                 if (rs.next()) {
                     stats.append("Pending: ").append(rs.getInt(1)).append("\n");
                 }
             }
-
-            // Confirmed bookings
             try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM bookings WHERE status='Confirmed'")) {
                 if (rs.next()) {
                     stats.append("Confirmed: ").append(rs.getInt(1)).append("\n");
                 }
             }
-
-            // Cancelled bookings
             try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM bookings WHERE status='Cancelled'")) {
                 if (rs.next()) {
                     stats.append("Cancelled: ").append(rs.getInt(1)).append("\n");
                 }
             }
-
-            // Completed bookings
             try (ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM bookings WHERE status='Completed'")) {
                 if (rs.next()) {
                     stats.append("Completed: ").append(rs.getInt(1)).append("\n");
@@ -378,9 +329,6 @@ public class DB {
         return stats.toString();
     }
 
-    // -----------------------------
-    // ERROR HELPER
-    // -----------------------------
     public static void printError(SQLException e) {
         System.err.println("SQL Error: " + e.getMessage());
         e.printStackTrace();
