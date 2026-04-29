@@ -6,7 +6,7 @@ A professional desktop application for managing customer bookings with secure au
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Login Interface
 ![Login Interface](./screenshots/login.jpg)
