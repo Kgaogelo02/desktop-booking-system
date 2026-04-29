@@ -70,7 +70,6 @@ public class DB {
              ResultSet rs = stmt.executeQuery(checkSql)) {
 
             if (rs.next() && rs.getInt(1) == 0) {
-                // No users exist, create default admin
                 try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
                     ps.setString(1, "admin");
                     ps.setString(2, "admin123");
